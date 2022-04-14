@@ -1,0 +1,95 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+ 
+<div class="animated fadeIn">
+ 
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        
+        <div class="card-header" style="background-color: #20a8d8; color: #ffffff;">
+          <strong>Orders</strong>
+        </div>
+
+        <div class="card-body">
+          
+          <p-table #tableOrder [value]="orders$ | async" [paginator]="true" [rows]="10"
+          sortMode="multiple" [multiSortMeta]="[{'field': 'id', 'order': -1}]"
+          [globalFilterFields]="['id']">
+            
+            <ng-template pTemplate="caption">
+              <div class="row">
+                  <div class="col-lg-2"  style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 5px;">
+                    <button type="button" class="btn btn-block btn-primary" (click)="newOrder();">New Order</button>
+                  </div> 
+
+                  <div class="col-lg-8"  style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 5px;">
+                    <i class="fa fa-search" style="margin-right: 5px;"></i>
+                  
+                    <input type="text" pInputText size="50" placeholder="Search"
+                      (input)="tableMov.filterGlobal($event.target.value, 'contains')" 
+                      style="width:90% !important;border-radius: 1.0rem !important;
+                      padding-left: 5px !important;height: 30px !important;">
+                  </div>
+            </div>
+            </ng-template>
+
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th>ID</th>
+                  <th>Customer</th>
+                  <th>Itens</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Edit</th>
+                  <th>Actions</th>
+                  <th>Delete</th>
+                </tr>
+            </ng-template> 
+
+            <ng-template pTemplate="body" let-p>
+                <tr>
+                  <td>{{ p.id }}</td>
+                  <td>{{ p.customer.name }}</td>
+                  <td>
+                    <table class="table table-bordered table-striped table-sm"> 
+                      <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                      </tr>
+                      <tr *ngFor="let i of p.itens">
+                        <td>{{ i.product.name }}</td>
+                        <td>{{ i.priceItem }}</td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td>{{ p.total }}</td>
+                  <td>{{ p.status }}</td>
+                  <td style="text-align: center;"><button type="button" class="btn btn-warning" (click)="editOrder(p);"><i class="fa fa-pencil"></i></button></td>
+                  <td>
+                    <button type="button" class="btn btn-block btn-primary" (click)="processOrder(p, 1);">Approve Order</button>
+                    <button type="button" class="btn btn-block btn-danger" (click)="processOrder(p, 2);">Disapprove Order</button>
+                  </td>
+                  <td style="text-align: center;"><button type="button" class="btn btn-danger" (click)="deleteOrder(p);"><i class="fa fa-times"></i></button></td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+      </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+
+  <app-orders-edit (loadorders)="getOrders()"></app-orders-edit>
+  
+</div>
+
+
+

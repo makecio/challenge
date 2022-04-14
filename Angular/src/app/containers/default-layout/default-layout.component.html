@@ -1,0 +1,38 @@
+<app-header
+  [navbarBrandRouterLink]="['/dashboard']"
+  [fixed]="true"
+  [navbarBrandFull]="{src: '', width: 30, height: 40, alt: 'BALUOW'}"
+  [sidebarToggler]="false"
+  [asideMenuToggler]="false">
+</app-header>
+
+<div class="app-body">
+
+  <app-sidebar [fixed]="true" [display]="'lg'" [minimized]="false">
+    <app-sidebar-nav  [navItems]="navItems" [perfectScrollbar] [disabled]="sidebarMinimized"></app-sidebar-nav>
+    <app-sidebar-minimizer></app-sidebar-minimizer>
+  </app-sidebar>
+
+
+  <!-- Main content -->
+  <main class="main">
+    <!-- Breadcrumb -->
+    <!-- breaking change 'cui-breadcrumb'
+    <cui-breadcrumb></cui-breadcrumb>-->
+    <br>
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div><!-- /.container-fluid -->
+  </main>
+
+  <app-aside *ngIf="mostraMenuAside" [fixed]="true" [display]="'lg'" >
+
+  </app-aside>
+
+</div>
+
+
+<app-footer>
+  <span><a href="#">Challenge Baluow</a> &copy; 2022.</span>
+  <span class="ml-auto">Powered by<a href="#"> Makecio</a></span>
+</app-footer>

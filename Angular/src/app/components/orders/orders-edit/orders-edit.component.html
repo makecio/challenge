@@ -1,0 +1,109 @@
+<div class="modal fade"
+  [ngStyle]="{ 'z-index': (edicaoModal ? '1040' : '1050') }"
+  bsModal #modalOrder="bs-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" 
+  aria-hcodigoden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  
+  <div class="modal-dialog modal-lg" id="modalOrder"  role="document">
+    
+    <div class="modal-content" >
+      
+      <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+        
+      <div class="modal-header" style="background-color: #20a8d8; color: #ffffff;">
+        <h4 class="modal-title">{{ titulo }}</h4>
+        
+        <button type="button" class="close" (click)="hideModal();" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">   
+
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="card-body">
+                  <div class="row">
+                    
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="customer"><strong>Customer</strong></label>
+                        <select required class="form-control" [(ngModel)]="_order.customer" id="customer" name="customer">
+                          <option disabled [attr.selected]="true">Select a customer</option>
+                          <option *ngFor="let c of customers$ | async" 
+                              [ngValue]="c" 
+                              [attr.selected]="_order.customer===c ? true : null">
+                            {{c.name}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="product"><strong>Product</strong></label>
+                        <select required class="form-control" [(ngModel)]="product" id="product" name="product">
+                          <option disabled [attr.selected]="true">Select a product</option>
+                          <option *ngFor="let p of products$ | async" 
+                              [ngValue]="p" >
+                            {{p.name}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                    <div class="col-sm-12 col-md-12 col-lg-12" >
+                      <div class="form-group">
+                        <button type="button" style="cursor: grab !important;" class="form-control btn btn-primary" (click)="addItem()">
+                         Add Product
+                        </button>
+                      </div>  
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="_order.itens && _order.itens.length > 0">
+                          
+                      <table class="table table-bordered table-striped table-sm" style="overflow: auto; " >
+
+                        <thead style="background-color: #4f4f4f; color: #ffffff; padding: 6px;">
+                          <tr>
+                            <th style="min-width: 70px;"><span style="font-size: 11px;">Product</span></th>
+                            <th style="min-width: 70px;"><span style="font-size: 11px;">Price</span></th>
+                            <th style="min-width: 70px;"><span style="font-size: 11px;">Delete</span></th>
+                          </tr>
+                        </thead>
+
+                        <tbody *ngIf="_order.itens && _order.itens.length > 0">
+                          <tr *ngFor="let i of _order.itens">
+                            <td style="min-width: 70px; font-size: 10px;" >{{ i.product.name }}</td>
+                            <td style="min-width: 70px; font-size: 10px;" >{{ i.priceItem }}</td>
+                            <td style="text-align: center; min-width: 70px;">
+                              <button  style=" font-size: 7px;" type="button" class="btn btn-danger" (click)="deleteItem(i);"><i class="fa fa-times"></i></button>
+                            </td>
+                          </tr>
+                        </tbody>
+
+                      </table>
+
+                  </div>
+
+                  <div class="col-sm-12 col-md-12 col-lg-12">
+                    <h4 *ngIf="_order && _order.total > 0" class="modal-title">Total: {{ _order.total }}</h4>
+                  </div>
+                 
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ><i class="fa fa-save"></i> Save</button>
+        <button type="button" class="btn btn-secondary" (click)="this.hideModal();"><i class="fa fa-times"></i> Cancel</button>
+      </div>
+
+    </form>
+
+    </div>
+  </div>
+</div>
