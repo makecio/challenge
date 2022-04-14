@@ -1,5 +1,4 @@
 spring:
-  profiles: local
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -7,6 +6,6 @@ spring:
     show-sql: true
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost/baluwo_challenge
+    url: jdbc:postgresql://127.0.0.1:5432/baluwo_challenge
     username: postgres
     password: postgres
